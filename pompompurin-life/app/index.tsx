@@ -5,8 +5,8 @@ import Lampara from '../components/Lampara';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Lampara />
-     <BarraDeEstado/>
+    <BarraDeEstado/>
+    <Lampara />
     </View>
   );
 }

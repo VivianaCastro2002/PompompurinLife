@@ -1,12 +1,14 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
 
 export default function HomeScreen() {
+  const [lampOff, setLampOff] = useState(false);
   return (
     <View style={styles.container}>
-    <BarraDeEstado/>
-    <Lampara />
+        <BarraDeEstado isLampOff={lampOff}/>
+        <Lampara onToggle={setLampOff}/>
     </View>
   );
 }

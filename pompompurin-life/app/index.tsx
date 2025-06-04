@@ -1,10 +1,12 @@
 import { View, StyleSheet } from 'react-native';
+import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Lampara />
+     <BarraDeEstado/>
     </View>
   );
 }

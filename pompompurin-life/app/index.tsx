@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
+import ArmarioBoton from '@/components/ArmarioBoton';
 
 export default function HomeScreen() {
+  const router = useRouter();  
   const [energy, setEnergy] = useState(100);
   const [hunger, setHunger] = useState(100);
   const [isLampOff, setIsLampOff] = useState(false);
@@ -21,8 +24,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-        <BarraDeEstado energy={energy} hunger={hunger}/>
+       <BarraDeEstado energy={energy} hunger={hunger}/>
+       <View style={styles.accionesContainer}>
+        <ArmarioBoton onPress={() => router.push('/armario')} />  
         <Lampara onToggle={setIsLampOff}/>
+      </View>
     </View>
   );
 }
@@ -32,6 +38,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection:'column',
     backgroundColor: '#FFF7CC',
+  },
+  accionesContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingHorizontal: 20,
+    paddingBottom: 40,
   },
 });
 

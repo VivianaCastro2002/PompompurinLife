@@ -1,12 +1,17 @@
 import { View, Text, StyleSheet, Button } from 'react-native';
 
-export default function ArmarioBoton() {
+type ArmarioBotonProps = {
+  onPress: () => void;
+};
+
+export default function ArmarioBoton({ onPress }: ArmarioBotonProps) {
     return (
         <View style={styles.container}>
             <Button
                 title="Abrir Armario"
                 color="#69372c"
-                />
+                onPress={onPress}
+            />
         </View>
     );
 

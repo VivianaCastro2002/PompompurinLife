@@ -1,14 +1,16 @@
 import { View, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
 import ArmarioBoton from '@/components/ArmarioBoton';
 
 export default function HomeScreen() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <BarraDeEstado/>
       <View style={styles.accionesContainer}>
-        <ArmarioBoton />  
+        <ArmarioBoton onPress={() => router.push('/armario')} />  
         <Lampara />
       </View>
 

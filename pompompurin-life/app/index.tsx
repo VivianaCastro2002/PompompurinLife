@@ -1,9 +1,10 @@
 import { View, StyleSheet } from 'react-native';
+import Lampara from '../components/Lampara';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      {/* Aquí irán los componentes como las barras de estado, Pompompurin, etc. */}
+      <Lampara />
     </View>
   );
 }

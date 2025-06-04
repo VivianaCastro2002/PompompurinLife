@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useState } from 'react';
 
-export default function StatusTest() {
+
+export default function BarraDeEstado() {
   const [energy, setEnergy] = useState(40); // en porcentaje
   const [hunger, setHunger] = useState(100);
 
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '15%',
     flexDirection: 'row',
-    backgroundColor: '#fff8e1',
+    backgroundColor: '#b66325',
     justifyContent:'center',
     alignItems: 'center',
     gap: '3%',

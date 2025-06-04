@@ -23,6 +23,14 @@ export default function HomeScreen() {
     return () => clearInterval(interval);
   }, [isLampOff]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHunger(prev => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <View style={styles.container}>
         <BarraDeEstado energy={energy} hunger={hunger}/>

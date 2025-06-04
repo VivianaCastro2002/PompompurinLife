@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 'auto',
     fontWeight: 'bold',
+    color:'white',
   },
   barContainer: {
     alignItems: 'center', // Centra el contenido

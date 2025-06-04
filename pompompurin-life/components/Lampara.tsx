@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 
-export default function Lampara() {
-  const [isOn, setIsOn] = useState(true);
+export default function Lampara({ onToggle }: { onToggle: (isOff: boolean) => void }) {
+  const [isOff, setIsOff] = useState(false);
 
-  const toggleLampara = () => {
-    setIsOn(prev => !prev);
+  const toggle = () => {
+    setIsOff(prev => {
+      const next = !prev;
+      onToggle(next);
+      return next;
+    });
   };
 
   return (
     <View style={styles.container}>
-      <Button
-        title={isOn ? 'Apagar' : 'Encender'}
-        onPress={toggleLampara}
-        color={isOn ? '#FFD700' : '#999'}
-      />
+    <Button title={isOff ? 'Encender' : 'Apagar'}
+            onPress={toggle}
+            color={isOff ? '#999' : '#FFD700'}/>
     </View>
   );
 }
@@ -24,6 +26,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     flex: 1,
-    paddingBottom: 40,
+    paddingBottom: '20%',
   },
 });

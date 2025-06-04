@@ -1,21 +1,18 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 
-export default function BarraDeEstado() {
-  const [energy, setEnergy] = useState(40); // en porcentaje
-  const [hunger, setHunger] = useState(100);
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.barContainer}>
-        <Text style={styles.title}>Energía: {energy}%</Text>
+export default function BarraDeEstado({ energy, hunger }: { energy: number, hunger: number }) {
+   return (
+      <View style={styles.container}>
+        <View style={styles.barContainer}>
+          <Text style={styles.title}>Energía: {Math.round(energy)}%</Text>
+        </View>
+        <View style={styles.barContainer}>
+          <Text style={styles.title}>Hambre: {Math.round(hunger)}%</Text>
+        </View>
       </View>
-      <View style={styles.barContainer}>
-        <Text style={styles.title}>Hambre: {hunger}%</Text>
-      </View>
-    </View>
-  );
+   );
 }
 
 const styles = StyleSheet.create({

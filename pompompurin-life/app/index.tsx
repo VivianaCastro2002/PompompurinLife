@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
@@ -5,15 +6,29 @@ import Lampara from '../components/Lampara';
 import ArmarioBoton from '@/components/ArmarioBoton';
 
 export default function HomeScreen() {
-  const router = useRouter();
+  const router = useRouter();  
+  const [energy, setEnergy] = useState(100);
+  const [hunger, setHunger] = useState(100);
+  const [isLampOff, setIsLampOff] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEnergy(prev => {
+        if (isLampOff) return Math.min(prev + 1, 100);
+        else return Math.max(prev - 1, 0);
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isLampOff]);
+
   return (
     <View style={styles.container}>
-      <BarraDeEstado/>
-      <View style={styles.accionesContainer}>
+       <BarraDeEstado energy={energy} hunger={hunger}/>
+       <View style={styles.accionesContainer}>
         <ArmarioBoton onPress={() => router.push('/armario')} />  
-        <Lampara />
+        <Lampara onToggle={setIsLampOff}/>
       </View>
-
     </View>
   );
 }

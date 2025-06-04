@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
+import RefrigeradorBoton from '../components/RefrigeradorBoton';
 
 export default function HomeScreen() {
   const [energy, setEnergy] = useState(100);
@@ -22,7 +23,10 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
         <BarraDeEstado energy={energy} hunger={hunger}/>
-        <Lampara onToggle={setIsLampOff}/>
+         <View style={styles.accionesContainer}>
+           <Lampara onToggle={setIsLampOff}/>
+           <RefrigeradorBoton />
+         </View>
     </View>
   );
 }
@@ -33,5 +37,13 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     backgroundColor: '#FFF7CC',
   },
+   accionesContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+      paddingHorizontal: 20,
+      paddingBottom: 40,
+    },
 });
 

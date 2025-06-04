@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
 import RefrigeradorBoton from '../components/RefrigeradorBoton';
-import ArmarioBoton from '@/components/ArmarioBoton';
+import ArmarioBoton from '../components/ArmarioBoton';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -27,8 +27,9 @@ export default function HomeScreen() {
     <View style={styles.container}>
         <BarraDeEstado energy={energy} hunger={hunger}/>
          <View style={styles.accionesContainer}>
+           <ArmarioBoton onPress={() => router.push('/armario')} />
            <Lampara onToggle={setIsLampOff}/>
-           <RefrigeradorBoton />
+           <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
          </View>
     </View>
   );

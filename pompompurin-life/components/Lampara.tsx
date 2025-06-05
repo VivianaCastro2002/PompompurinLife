@@ -23,9 +23,6 @@ export default function Lampara({ onToggle }: { onToggle: (isOff: boolean) => vo
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    flex: 1,
-    paddingBottom: '20%',
+
   },
 });

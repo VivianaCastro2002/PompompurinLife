@@ -36,7 +36,7 @@ export default function Armario() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF7CC',
+        backgroundColor: '#f9de8c',
         padding: 20,
         justifyContent: 'center',
         alignItems: 'center',

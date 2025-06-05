@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image, Pressable, ImageBackground } from 'react-native';
 import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
@@ -11,6 +11,28 @@ export default function HomeScreen() {
   const [energy, setEnergy] = useState(100);
   const [hunger, setHunger] = useState(100);
   const [isLampOff, setIsLampOff] = useState(false);
+  const [mostrarDialogo, setMostrarDialogo] = useState(false);
+  const [mostrarDialogoHambreMedia, setMostrarDialogoHambreMedia] = useState(false);
+  const [mostrarDialogoHambreCritica, setMostrarDialogoHambreCritica] = useState(false);
+  const [mostrarDialogoSuennio, setMostrarDialogoSuennio] = useState(false);
+
+  useEffect(() => {
+    if (hunger === 50) {
+      setMostrarDialogoHambreMedia(true);
+      setTimeout(() => setMostrarDialogoHambreMedia(false), 4000);
+    }
+    if (hunger === 15) {
+      setMostrarDialogoHambreCritica(true);
+      setTimeout(() => setMostrarDialogoHambreCritica(false), 4000);
+    }
+  }, [hunger]);
+
+  useEffect(() => {
+      if (energy === 15) {
+        setMostrarDialogoSuennio(true);
+        setTimeout(() => setMostrarDialogoSuennio(false), 4000);
+      }
+    }, [energy]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,15 +53,57 @@ export default function HomeScreen() {
     return () => clearInterval(interval);
   }, []);
 
+  const handlePress = () => {
+    setMostrarDialogo(true);
+    setTimeout(() => 
+      setMostrarDialogo(false), 4000);   
+  };
+
   return (
-    <View style={styles.container}>
+    <ImageBackground source={require('../assets/images/fondo4.png')} style={styles.container} resizeMode="cover" >
+      <View style={styles.barrasEstadoContainer}>
         <BarraDeEstado energy={energy} hunger={hunger}/>
-         <View style={styles.accionesContainer}>
-           <ArmarioBoton onPress={() => router.push('/armario')} />
-           <Lampara onToggle={setIsLampOff}/>
-           <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
-         </View>
-    </View>
+      </View>
+
+      <View style={styles.imagenContainer}>
+        {mostrarDialogo && (
+          <Image
+            source={require('../assets/images/touchText.png')}
+            style={styles.dialogo}
+          />
+        )}
+        {mostrarDialogoHambreMedia && (
+          <Image
+            source={require('../assets/images/se me antoja algo.png')}
+            style={styles.dialogo}
+          />
+        )}
+        {mostrarDialogoHambreCritica && (
+          <Image
+            source={require('../assets/images/tengo hambre.png')}
+            style={styles.dialogo}
+          />
+        )}
+        {mostrarDialogoSuennio && (
+            <Image
+             source={require('../assets/images/que alguien apague la luz.png')}
+             style={styles.dialogo}
+             />
+        )}
+
+        <Pressable onPress={handlePress}>
+          <Image
+            source={require('../assets/images/pompompurin.png')}
+            style={styles.imagen}
+          />
+        </Pressable>
+      </View>
+      <View style={styles.accionesContainer}>
+        <ArmarioBoton onPress={() => router.push('/armario')} />
+        <Lampara onToggle={setIsLampOff}/>
+        <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -47,15 +111,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection:'column',
-    backgroundColor: '#FFF7CC',
+    gap: 0,
+  },
+  barrasEstadoContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    paddingTop: '10%'
+  },
+  imagenContainer: {
+    flex: 4,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    position: 'relative',
+    paddingVertical: '5%',
+    
+  },
+  dialogo: {
+    width: '80%',
+    height: '30%',
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: '10%',
+  },
+  imagen: {
+    width: 340,
+    height: 295,
+    resizeMode: 'contain',  
+     
   },
   accionesContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    paddingHorizontal: 20,
-    paddingBottom: 40,
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
 });
 

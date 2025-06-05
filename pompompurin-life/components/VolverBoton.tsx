@@ -16,7 +16,7 @@ export default function VolverBoton({ onPress }: VolverBotonProps) {
   );
 }
 const styles = StyleSheet.create({
-        container: {   
+    container: {   
         alignItems: 'flex-start',
         justifyContent: 'flex-end',
         

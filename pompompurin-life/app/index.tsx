@@ -3,10 +3,11 @@ import { View, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
-import ArmarioBoton from '@/components/ArmarioBoton';
+import RefrigeradorBoton from '../components/RefrigeradorBoton';
+import ArmarioBoton from '../components/ArmarioBoton';
 
 export default function HomeScreen() {
-  const router = useRouter();  
+  const router = useRouter();
   const [energy, setEnergy] = useState(100);
   const [hunger, setHunger] = useState(100);
   const [isLampOff, setIsLampOff] = useState(false);
@@ -22,13 +23,22 @@ export default function HomeScreen() {
     return () => clearInterval(interval);
   }, [isLampOff]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHunger(prev => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <View style={styles.container}>
-       <BarraDeEstado energy={energy} hunger={hunger}/>
-       <View style={styles.accionesContainer}>
-        <ArmarioBoton onPress={() => router.push('/armario')} />  
-        <Lampara onToggle={setIsLampOff}/>
-      </View>
+        <BarraDeEstado energy={energy} hunger={hunger}/>
+         <View style={styles.accionesContainer}>
+           <ArmarioBoton onPress={() => router.push('/armario')} />
+           <Lampara onToggle={setIsLampOff}/>
+           <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
+         </View>
     </View>
   );
 }

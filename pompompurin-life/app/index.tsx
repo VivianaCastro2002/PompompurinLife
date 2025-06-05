@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Image, Pressable } from 'react-native';
+import { View, StyleSheet, Image, Pressable, ImageBackground } from 'react-native';
 import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
@@ -39,7 +39,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={require('../assets/images/fondo4.png')} style={styles.container} resizeMode="cover" >
       <View style={styles.barrasEstadoContainer}>
         <BarraDeEstado energy={energy} hunger={hunger}/>
       </View>
@@ -64,7 +64,7 @@ export default function HomeScreen() {
         <Lampara onToggle={setIsLampOff}/>
         <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection:'column',
-    backgroundColor: '#FFF7CC',
     gap: 0,
   },
   barrasEstadoContainer: {
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
     top: '10%',
   },
   imagen: {
-    width: 360,
+    width: 340,
     height: 295,
     resizeMode: 'contain',  
      

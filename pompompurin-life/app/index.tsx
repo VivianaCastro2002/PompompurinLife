@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
@@ -33,12 +33,20 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.barrasEstadoContainer}>
         <BarraDeEstado energy={energy} hunger={hunger}/>
-         <View style={styles.accionesContainer}>
-           <ArmarioBoton onPress={() => router.push('/armario')} />
-           <Lampara onToggle={setIsLampOff}/>
-           <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
-         </View>
+      </View>
+      <View style={styles.imagenContainer}>
+        <Image
+          source={require('../assets/images/pompompurin.png')}
+          style={styles.imagen}
+          /> 
+      </View> 
+      <View style={styles.accionesContainer}>
+        <ArmarioBoton onPress={() => router.push('/armario')} />
+        <Lampara onToggle={setIsLampOff}/>
+        <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
+      </View>
     </View>
   );
 }
@@ -49,13 +57,27 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     backgroundColor: '#FFF7CC',
   },
+  barrasEstadoContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  imagenContainer: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imagen: {
+    width: '90%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
   accionesContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    paddingHorizontal: 20,
-    paddingBottom: 40,
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
 });
 

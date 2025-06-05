@@ -18,11 +18,6 @@ export default function ArmarioBoton({ onPress }: ArmarioBotonProps) {
 }
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'flex-start',
-        justifyContent: 'flex-end',
-        flex: 1,
-        paddingBottom: 40,
-        paddingLeft: 20,
 
     },
 });

@@ -5,10 +5,10 @@ import { useState, useEffect, useRef } from 'react';
 export default function BarraDeEstado({ energy, hunger }: { energy: number, hunger: number }) {
    return (
       <View style={styles.container}>
-        <View style={styles.barContainer}>
+        <View style={styles.energyBarContainer}>
           <Text style={styles.title}>Energía: {Math.round(energy)}%</Text>
         </View>
-        <View style={styles.barContainer}>
+        <View style={styles.hungryBarContainer}>
           <Text style={styles.title}>Hambre: {Math.round(hunger)}%</Text>
         </View>
       </View>
@@ -18,22 +18,22 @@ export default function BarraDeEstado({ energy, hunger }: { energy: number, hung
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '15%',
-    flexDirection: 'row',
-    backgroundColor: '#b66325',
-    justifyContent:'center',
-    alignItems: 'center',
-    gap: '3%',
+    gap: 10,
     padding: '3%',
   },
   title: {
-    fontSize: 16,
+    fontSize: 24,
     marginBottom: 'auto',
     fontWeight: 'bold',
     color:'white',
   },
-  barContainer: {
+  energyBarContainer: {
     alignItems: 'center', // Centra el contenido
+    backgroundColor:'#b7e0b1'
+  },
+  hungryBarContainer: {
+    alignItems: 'center', // Centra el contenido
+    backgroundColor:'#eeaa78'
   },
   label: {
     fontSize: 16,

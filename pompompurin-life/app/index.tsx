@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
@@ -11,6 +11,7 @@ export default function HomeScreen() {
   const [energy, setEnergy] = useState(100);
   const [hunger, setHunger] = useState(100);
   const [isLampOff, setIsLampOff] = useState(false);
+  const [mostrarDialogo, setMostrarDialogo] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,16 +32,32 @@ export default function HomeScreen() {
     return () => clearInterval(interval);
   }, []);
 
+  const handlePress = () => {
+    setMostrarDialogo(true);
+    setTimeout(() => 
+      setMostrarDialogo(false), 4000);   
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.barrasEstadoContainer}>
         <BarraDeEstado energy={energy} hunger={hunger}/>
       </View>
+
       <View style={styles.imagenContainer}>
+        { mostrarDialogo && (
         <Image
-          source={require('../assets/images/pompompurin.png')}
-          style={styles.imagen}
+          source={require('../assets/images/touchText.png')}
+          style={styles.dialogo}
           /> 
+        )}
+        <Pressable onPress={handlePress}>
+          <Image
+            source={require('../assets/images/pompompurin.png')}
+            style={styles.imagen}
+          />
+        </Pressable>
+      
       </View> 
       <View style={styles.accionesContainer}>
         <ArmarioBoton onPress={() => router.push('/armario')} />
@@ -56,6 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection:'column',
     backgroundColor: '#FFF7CC',
+    gap: 0,
   },
   barrasEstadoContainer: {
     flex: 1,
@@ -63,14 +81,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imagenContainer: {
-    flex: 3,
-    justifyContent: 'center',
+    flex: 4,
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    position: 'relative',
+    paddingVertical: '5%',
+    
+  },
+  dialogo: {
+    width: '80%',
+    height: '30%',
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: '10%',
   },
   imagen: {
-    width: '90%',
-    height: '100%',
-    resizeMode: 'contain',
+    width: 360,
+    height: 295,
+    resizeMode: 'contain',  
+     
   },
   accionesContainer: {
     flex: 1,

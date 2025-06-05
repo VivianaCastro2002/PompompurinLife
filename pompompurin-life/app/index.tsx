@@ -14,6 +14,7 @@ export default function HomeScreen() {
   const [mostrarDialogo, setMostrarDialogo] = useState(false);
   const [mostrarDialogoHambreMedia, setMostrarDialogoHambreMedia] = useState(false);
   const [mostrarDialogoHambreCritica, setMostrarDialogoHambreCritica] = useState(false);
+  const [mostrarDialogoSuennio, setMostrarDialogoSuennio] = useState(false);
 
   useEffect(() => {
     if (hunger === 50) {
@@ -25,6 +26,13 @@ export default function HomeScreen() {
       setTimeout(() => setMostrarDialogoHambreCritica(false), 4000);
     }
   }, [hunger]);
+
+  useEffect(() => {
+      if (energy === 15) {
+        setMostrarDialogoSuennio(true);
+        setTimeout(() => setMostrarDialogoSuennio(false), 4000);
+      }
+    }, [energy]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -75,6 +83,12 @@ export default function HomeScreen() {
             source={require('../assets/images/tengo hambre.png')}
             style={styles.dialogo}
           />
+        )}
+        {mostrarDialogoSuennio && (
+            <Image
+             source={require('../assets/images/que alguien apague la luz.png')}
+             style={styles.dialogo}
+             />
         )}
 
         <Pressable onPress={handlePress}>

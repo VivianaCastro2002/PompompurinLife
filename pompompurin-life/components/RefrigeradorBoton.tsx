@@ -9,7 +9,7 @@ export default function RefrigeradorBoton({ onPress }: RefrigeradorBotonProps){
   return (
     <View style={styles.container}>
     <Button title={'Refrigerador'}
-            color={'#999'}
+            color={'#5F82A5'}
             onPress={onPress}/>
     </View>
   );

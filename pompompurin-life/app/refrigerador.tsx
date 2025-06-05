@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import VolverBoton from '@/components/VolverBoton';
 import { useRouter } from 'expo-router';
 
@@ -9,9 +9,24 @@ export default function Refrigerador() {
         <View style={styles.container}>
             <Text style={styles.title}>Refrigerador</Text>
             <View style={styles.refri}>
-                <View style={styles.estante}></View>
-                <View style={styles.estante}></View>
-                <View style={styles.estante}></View>
+                <View style={styles.estante}>
+                  <Image
+                    source={require('../assets/images/flan.png')}
+                    style={{ width: '50%', height: '100%', resizeMode: 'contain' }}
+                  />
+                </View>
+                <View style={styles.estante}>
+                  <Image
+                    source={require('../assets/images/flan.png')}
+                    style={{ width: '50%', height: '100%', resizeMode: 'contain' }}
+                  />
+                </View>
+                <View style={styles.estante}>
+                  <Image
+                    source={require('../assets/images/flan.png')}
+                    style={{ width: '50%', height: '100%', resizeMode: 'contain' }}
+                  />
+                </View>
             </View>
             <VolverBoton onPress={() => router.push('/')}/>
         </View>
@@ -23,6 +38,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFF7CC',
         padding: 20,
+        paddingTop: '10%',
         justifyContent: 'center',
         alignItems: 'center',
     },

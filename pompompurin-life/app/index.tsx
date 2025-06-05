@@ -12,6 +12,19 @@ export default function HomeScreen() {
   const [hunger, setHunger] = useState(100);
   const [isLampOff, setIsLampOff] = useState(false);
   const [mostrarDialogo, setMostrarDialogo] = useState(false);
+  const [mostrarDialogoHambreMedia, setMostrarDialogoHambreMedia] = useState(false);
+  const [mostrarDialogoHambreCritica, setMostrarDialogoHambreCritica] = useState(false);
+
+  useEffect(() => {
+    if (hunger === 50) {
+      setMostrarDialogoHambreMedia(true);
+      setTimeout(() => setMostrarDialogoHambreMedia(false), 4000);
+    }
+    if (hunger === 15) {
+      setMostrarDialogoHambreCritica(true);
+      setTimeout(() => setMostrarDialogoHambreCritica(false), 4000);
+    }
+  }, [hunger]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,20 +58,32 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.imagenContainer}>
-        { mostrarDialogo && (
-        <Image
-          source={require('../assets/images/touchText.png')}
-          style={styles.dialogo}
-          /> 
+        {mostrarDialogo && (
+          <Image
+            source={require('../assets/images/touchText.png')}
+            style={styles.dialogo}
+          />
         )}
+        {mostrarDialogoHambreMedia && (
+          <Image
+            source={require('../assets/images/se me antoja algo.png')}
+            style={styles.dialogo}
+          />
+        )}
+        {mostrarDialogoHambreCritica && (
+          <Image
+            source={require('../assets/images/tengo hambre.png')}
+            style={styles.dialogo}
+          />
+        )}
+
         <Pressable onPress={handlePress}>
           <Image
             source={require('../assets/images/pompompurin.png')}
             style={styles.imagen}
           />
         </Pressable>
-      
-      </View> 
+      </View>
       <View style={styles.accionesContainer}>
         <ArmarioBoton onPress={() => router.push('/armario')} />
         <Lampara onToggle={setIsLampOff}/>

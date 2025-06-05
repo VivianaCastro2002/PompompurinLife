@@ -8,13 +8,13 @@ export default function BarraDeEstado({ energy, hunger }: { energy: number, hung
         <View style={styles.energyBarContainer}>
           <Text style={styles.title}>Energía: {Math.round(energy)}%</Text>
           <View style={styles.barBackground}>
-          <View style={[styles.barFill, { width: `${energy}%`, backgroundColor: '#FFD700' }]} />
+          <View style={[styles.barFill, { width: `${energy}%`, backgroundColor: '#93D067' }]} />
           </View>
         </View>
         <View style={styles.hungryBarContainer}>
           <Text style={styles.title}>Hambre: {Math.round(hunger)}%</Text>
            <View style={styles.barBackground}>
-            <View style={[styles.barFill, { width: `${hunger}%`, backgroundColor: '#FF6347' }]} />
+            <View style={[styles.barFill, { width: `${hunger}%`, backgroundColor: '#C3793C' }]} />
            </View>
         </View>
       </View>
@@ -31,15 +31,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 'auto',
     fontWeight: 'bold',
-    color:'white',
+    color:'#61391b',
   },
   energyBarContainer: {
     alignItems: 'center', // Centra el contenido
-    backgroundColor:'#b7e0b1'
   },
   hungryBarContainer: {
     alignItems: 'center', // Centra el contenido
-    backgroundColor:'#eeaa78'
   },
   label: {
     fontSize: 16,

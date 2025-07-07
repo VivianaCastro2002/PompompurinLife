@@ -5,6 +5,7 @@ import BarraDeEstado from '../components/BarrasDeEstado';
 import Lampara from '../components/Lampara';
 import RefrigeradorBoton from '../components/RefrigeradorBoton';
 import ArmarioBoton from '../components/ArmarioBoton';
+import * as Notifications from 'expo-notifications';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -15,6 +16,8 @@ export default function HomeScreen() {
   const [mostrarDialogoHambreMedia, setMostrarDialogoHambreMedia] = useState(false);
   const [mostrarDialogoHambreCritica, setMostrarDialogoHambreCritica] = useState(false);
   const [mostrarDialogoSuennio, setMostrarDialogoSuennio] = useState(false);
+  const notificadoHambre = useRef(false);
+  const notificadoEnergia = useRef(false);
 
   useEffect(() => {
     if (hunger === 50) {
@@ -52,6 +55,50 @@ export default function HomeScreen() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    Notifications.requestPermissionsAsync().then(status => {
+      if (status.granted) {
+        console.log("Permiso de notificación concedido");
+      }
+    });
+  }, []);
+
+  // Notificación por hambre
+  useEffect(() => {
+    if (hunger <= 15 && !notificadoHambre.current) {
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: '¡Me muerooo!',
+          body: 'Tu Pompompurin necesita comer algo 🍞',
+          sound: 'default',
+        },
+        trigger: null,
+      });
+      notificadoHambre.current = true;
+    }
+    if (hunger > 15) {
+      notificadoHambre.current = false; // se resetea si vuelve a subir
+    }
+  }, [hunger]);
+
+  // Notificación por energía
+  useEffect(() => {
+    if (energy <= 15 && !notificadoEnergia.current) {
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: '¡TENGO SUEÑOOO!',
+          body: 'Tu Pompompurin necesita descansar 💤',
+          sound: 'default',
+        },
+        trigger: null,
+      });
+      notificadoEnergia.current = true;
+    }
+    if (energy > 15) {
+      notificadoEnergia.current = false;
+    }
+  }, [energy]);
 
   const handlePress = () => {
     setMostrarDialogo(true);

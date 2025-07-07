@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, Button,TouchableOpacity,Image, StyleSheet } from 'react-native';
 
 type RefrigeradorBotonProps = {
   onPress: () => void;
@@ -8,14 +8,24 @@ type RefrigeradorBotonProps = {
 export default function RefrigeradorBoton({ onPress }: RefrigeradorBotonProps){
   return (
     <View style={styles.container}>
-    <Button title={'Refrigerador'}
-            color={'#5F82A5'}
-            onPress={onPress}/>
+      <TouchableOpacity onPress={onPress}>
+        <Image
+          source={require('../assets/images/fridge.png')}
+          style={styles.imagenBoton}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  imagenBoton: {
+    width: 100, // ajusta según el tamaño de tu PNG
+    height: 100,
+    resizeMode: 'contain',
   },
 });

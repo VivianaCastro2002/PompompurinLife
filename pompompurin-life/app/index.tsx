@@ -20,7 +20,24 @@ export default function HomeScreen() {
   const [mostrarDialogoSuennio, setMostrarDialogoSuennio] = useState(false);
   const notificadoHambre = useRef(false);
   const notificadoEnergia = useRef(false);
+  const [isBlinking, setIsBlinking] = useState(false);
 
+  useEffect(() => {
+    const blinkInterval = setInterval(() => {
+      if (!isLampOff) blinkTwice(); // solo parpadea si la lámpara está encendida
+    }, 5000);
+
+    return () => clearInterval(blinkInterval);
+  }, [isLampOff]);
+
+  const blinkTwice = async () => {
+    for (let i = 0; i < 2; i++) {
+      setIsBlinking(true);
+      await new Promise(resolve => setTimeout(resolve, 150));
+      setIsBlinking(false);
+      await new Promise(resolve => setTimeout(resolve, 150));
+    }
+  };
   useEffect(() => {
     if (hunger === 50) {
       setMostrarDialogoHambreMedia(true);
@@ -195,6 +212,20 @@ export default function HomeScreen() {
              source={require('../assets/images/cartman-traje.png')}
              style={[styles.imagen, styles.traje]}
            />
+           {/* Ojos cerrados solo si está parpadeando y la lámpara está encendida */}
+           {isBlinking && !isLampOff && (
+             <Image
+               source={require('../assets/images/Pompompurin-ojos cerrados.png')}
+               style={[styles.imagen, styles.traje]}
+             />
+           )}
+           {/* Imagen dormido si la lámpara está apagada */}
+           {isLampOff && (
+             <Image
+               source={require('../assets/images/Pompompurin-dormido.png')}
+               style={[styles.imagen, styles.traje]}
+             />
+           )}
         </Pressable>
       </View>
       <View style={styles.accionesContainer}>

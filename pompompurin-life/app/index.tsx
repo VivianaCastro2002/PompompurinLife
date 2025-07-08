@@ -108,6 +108,11 @@ export default function HomeScreen() {
 
   return (
     <ImageBackground source={require('../assets/images/fondo4.png')} style={styles.container} resizeMode="cover" >
+     <View style={styles.container}>
+         {isLampOff && (
+             <View style={styles.overlayOscuro} pointerEvents="none" />
+         )}
+
       <View style={styles.barrasEstadoContainer}>
         <BarraDeEstado energy={energy} hunger={hunger}/>
       </View>
@@ -150,6 +155,7 @@ export default function HomeScreen() {
         <Lampara onToggle={setIsLampOff}/>
         <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
       </View>
+     </View>
     </ImageBackground>
   );
 }
@@ -164,7 +170,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'center',
-    paddingTop: '10%'
+    paddingTop: '10%',
+    zIndex: 2
   },
   imagenContainer: {
     flex: 4,
@@ -180,6 +187,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     position: 'absolute',
     top: '10%',
+    zIndex: 2
   },
   imagen: {
     width: 340,
@@ -193,6 +201,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 10,
+  },
+  overlayOscuro: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'black',
+    opacity: 0.5, // puedes ajustarlo entre 0.3 y 0.7 según lo que te guste
+    zIndex: 1,
   },
 });
 

@@ -7,50 +7,73 @@ import React, { useState } from 'react';
 export default function Armario() {
   const router = useRouter();
   const [trajeSeleccionado, setTrajeSeleccionado] = useState(null);
+  const [gorroSeleccionado, setGorroSeleccionado] = useState(null);
 
-  const seleccionarTraje = async (nombre, key) => {
-    setTrajeSeleccionado({ nombre, key });
+  const seleccionarTraje = async (nombre, key, tipo) => {
     try {
-      await AsyncStorage.setItem('trajeSeleccionado', key);
+      if (tipo === 'traje') {
+        setTrajeSeleccionado({ nombre, key });
+        await AsyncStorage.setItem('trajeSeleccionado', key);
+      } else if (tipo === 'gorro') {
+        setGorroSeleccionado({ nombre, key });
+        await AsyncStorage.setItem('gorroSeleccionado', key);
+      }
     } catch (e) {
-      console.log('Error guardando traje', e);
+      console.log('Error guardando traje o gorro', e);
     }
   };
 
-  const botonTexto = trajeSeleccionado ? `Vestir ${trajeSeleccionado.nombre}` : 'Volver';
+  const botonTexto =
+    trajeSeleccionado && gorroSeleccionado
+      ? `Vestir ${trajeSeleccionado.nombre} y ${gorroSeleccionado.nombre}`
+      : trajeSeleccionado
+        ? `Vestir ${trajeSeleccionado.nombre}`
+        : gorroSeleccionado
+          ? `Vestir ${gorroSeleccionado.nombre}`
+          : 'Volver'
+  ;
+
   const onBotonPresionado = () => {
     router.push('/');
   };
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Armario</Text>
             <View style={styles.closet}>
                 <View style={styles.estante}>
-                  <TouchableOpacity onPress={() => seleccionarTraje('Gorro de Link', 'gorro-link')} style={styles.touchable}>
+                  <TouchableOpacity
+                    onPress={() => seleccionarTraje('Gorro de Link', 'gorro-link', 'gorro')}
+                    style={styles.touchable}>
                     <Image
-                        source={require('../assets/images/trajes/gorro-link.png')}
-                        style={styles.gorro}
+                      source={require('../assets/images/trajes/gorro-link.png')}
+                      style={styles.gorro}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => seleccionarTraje('Traje de Link', 'traje-link')} style={styles.touchable}>
+                  <TouchableOpacity
+                    onPress={() => seleccionarTraje('Traje de Link', 'traje-link', 'traje')}
+                    style={styles.touchable}>
                     <Image
-                        source={require('../assets/images/trajes/traje-link.png')}
-                        style={styles.traje}
+                      source={require('../assets/images/trajes/traje-link.png')}
+                      style={styles.traje}
                     />
                   </TouchableOpacity>
                 </View>
+
                 <View style={styles.estante}>
-                  <TouchableOpacity onPress={() => seleccionarTraje('Gorro de Cartman', 'gorro-cartman')} style={styles.touchable}>
+                  <TouchableOpacity
+                    onPress={() => seleccionarTraje('Gorro de Cartman', 'gorro-cartman', 'gorro')}
+                    style={styles.touchable}>
                     <Image
-                        source={require('../assets/images/trajes/gorro-cartman.png')}
-                        style={styles.gorro}
+                      source={require('../assets/images/trajes/gorro-cartman.png')}
+                      style={styles.gorro}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => seleccionarTraje('Traje de Cartman', 'traje-cartman')} style={styles.touchable}>
+                  <TouchableOpacity
+                    onPress={() => seleccionarTraje('Traje de Cartman', 'traje-cartman', 'traje')}
+                    style={styles.touchable}>
                     <Image
-                        source={require('../assets/images/trajes/traje-cartman.png')}
-                        style={styles.traje}
+                      source={require('../assets/images/trajes/traje-cartman.png')}
+                      style={styles.traje}
                     />
                   </TouchableOpacity>
                 </View>

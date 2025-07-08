@@ -21,6 +21,7 @@ export default function HomeScreen() {
   const notificadoHambre = useRef(false);
   const notificadoEnergia = useRef(false);
   const [isBlinking, setIsBlinking] = useState(false);
+  const [gorroSeleccionado, setGorroSeleccionado] = useState(null);
   const [trajeSeleccionado, setTrajeSeleccionado] = useState(null);
 
   useEffect(() => {
@@ -82,11 +83,13 @@ export default function HomeScreen() {
         const storedEnergy = await AsyncStorage.getItem('energy');
         const storedHunger = await AsyncStorage.getItem('hunger');
         const storedLamp = await AsyncStorage.getItem('isLampOff');
+        const storedGorro = await AsyncStorage.getItem('gorroSeleccionado');
         const storedTraje = await AsyncStorage.getItem('trajeSeleccionado');
 
         if (storedLamp !== null) setIsLampOff(storedLamp === 'true');
         if (storedEnergy !== null) setEnergy(Number(storedEnergy));
         if (storedHunger !== null) setHunger(Number(storedHunger));
+        if (storedGorro !== null) setGorroSeleccionado(storedGorro);
         if (storedTraje !== null) setTrajeSeleccionado(storedTraje);
       } catch (e) {
         console.log('Error al cargar datos', e);
@@ -207,21 +210,22 @@ export default function HomeScreen() {
             source={require('../assets/images/Pompompurin2.png')}
             style={styles.imagen}
           />
-          {trajeSeleccionado === 'gorro-link' && (
+          {gorroSeleccionado === 'gorro-link' && (
             <Image
               source={require('../assets/images/versiones-pompompurin/link-gorro con cola.png')}
-              style={[styles.imagen, styles.traje]}
+              style={[styles.imagen,styles.traje]}
             />
           )}
+          {gorroSeleccionado === 'gorro-cartman' && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/cartman-gorro.png')}
+              style={[styles.imagen,styles.traje]}
+            />
+          )}
+
           {trajeSeleccionado === 'traje-link' && (
             <Image
               source={require('../assets/images/versiones-pompompurin/link-traje.png')}
-              style={[styles.imagen, styles.traje]}
-            />
-          )}
-          {trajeSeleccionado === 'gorro-cartman' && (
-            <Image
-              source={require('../assets/images/versiones-pompompurin/cartman-gorro.png')}
               style={[styles.imagen, styles.traje]}
             />
           )}

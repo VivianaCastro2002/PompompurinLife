@@ -6,6 +6,8 @@ import Lampara from '../components/Lampara';
 import RefrigeradorBoton from '../components/RefrigeradorBoton';
 import ArmarioBoton from '../components/ArmarioBoton';
 import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -57,6 +59,30 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        const storedEnergy = await AsyncStorage.getItem('energy');
+        const storedHunger = await AsyncStorage.getItem('hunger');
+        const storedLamp = await AsyncStorage.getItem('isLampOff');
+
+        if (storedLamp !== null) setIsLampOff(storedLamp === 'true');
+        if (storedEnergy !== null) setEnergy(Number(storedEnergy));
+        if (storedHunger !== null) setHunger(Number(storedHunger));
+      } catch (e) {
+        console.log('Error al cargar datos', e);
+      }
+    };
+    cargarDatos();
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('isLampOff', isLampOff.toString()).catch(e =>
+      console.log('Error al guardar estado de la lámpara', e)
+    );
+  }, [isLampOff]);
+
+
+  useEffect(() => {
     Notifications.requestPermissionsAsync().then(status => {
       if (status.granted) {
         console.log("Permiso de notificación concedido");
@@ -99,6 +125,19 @@ export default function HomeScreen() {
       notificadoEnergia.current = false;
     }
   }, [energy]);
+
+  useEffect(() => {
+    AsyncStorage.setItem('energy', energy.toString()).catch(e =>
+      console.log('Error al guardar energía', e)
+    );
+  }, [energy]);
+
+  useEffect(() => {
+    AsyncStorage.setItem('hunger', hunger.toString()).catch(e =>
+      console.log('Error al guardar hambre', e)
+    );
+  }, [hunger]);
+
 
   const handlePress = () => {
     setMostrarDialogo(true);

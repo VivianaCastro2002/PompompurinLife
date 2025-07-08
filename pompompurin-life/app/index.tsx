@@ -184,9 +184,17 @@ export default function HomeScreen() {
 
         <Pressable onPress={handlePress}>
           <Image
-            source={require('../assets/images/pompompurin.png')}
+            source={require('../assets/images/Pompompurin2.png')}
             style={styles.imagen}
           />
+           <Image
+             source={require('../assets/images/cartman-gorro.png')}
+             style={[styles.imagen, styles.traje]}
+           />
+           <Image
+             source={require('../assets/images/cartman-traje.png')}
+             style={[styles.imagen, styles.traje]}
+           />
         </Pressable>
       </View>
       <View style={styles.accionesContainer}>
@@ -229,10 +237,14 @@ const styles = StyleSheet.create({
     zIndex: 2
   },
   imagen: {
-    width: 340,
-    height: 295,
-    resizeMode: 'contain',  
-     
+    width: 350,
+    height: 305,
+    resizeMode: 'contain',
+  },
+  traje: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   accionesContainer: {
     flex: 1,

@@ -2,13 +2,14 @@ import { View, StyleSheet,Text, Button } from 'react-native';
 
 type VolverBotonProps = {
   onPress: () => void;
+  title?: string;
 };
 
-export default function VolverBoton({ onPress }: VolverBotonProps) {
+export default function VolverBoton({ onPress , title = "Volver"  }: VolverBotonProps) {
   return (
     <View style={styles.container}>
       <Button
-        title="Volver"
+        title={title}
         color="#69372c"
         onPress={onPress}
       />

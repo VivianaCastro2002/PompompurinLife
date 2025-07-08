@@ -21,6 +21,7 @@ export default function HomeScreen() {
   const notificadoHambre = useRef(false);
   const notificadoEnergia = useRef(false);
   const [isBlinking, setIsBlinking] = useState(false);
+  const [trajeSeleccionado, setTrajeSeleccionado] = useState(null);
 
   useEffect(() => {
     const blinkInterval = setInterval(() => {
@@ -81,10 +82,12 @@ export default function HomeScreen() {
         const storedEnergy = await AsyncStorage.getItem('energy');
         const storedHunger = await AsyncStorage.getItem('hunger');
         const storedLamp = await AsyncStorage.getItem('isLampOff');
+        const storedTraje = await AsyncStorage.getItem('trajeSeleccionado');
 
         if (storedLamp !== null) setIsLampOff(storedLamp === 'true');
         if (storedEnergy !== null) setEnergy(Number(storedEnergy));
         if (storedHunger !== null) setHunger(Number(storedHunger));
+        if (storedTraje !== null) setTrajeSeleccionado(storedTraje);
       } catch (e) {
         console.log('Error al cargar datos', e);
       }
@@ -204,25 +207,41 @@ export default function HomeScreen() {
             source={require('../assets/images/Pompompurin2.png')}
             style={styles.imagen}
           />
-           <Image
-             source={require('../assets/images/cartman-gorro.png')}
-             style={[styles.imagen, styles.traje]}
-           />
-           <Image
-             source={require('../assets/images/cartman-traje.png')}
-             style={[styles.imagen, styles.traje]}
-           />
+          {trajeSeleccionado === 'gorro-link' && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/link-gorro con cola.png')}
+              style={[styles.imagen, styles.traje]}
+            />
+          )}
+          {trajeSeleccionado === 'traje-link' && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/link-traje.png')}
+              style={[styles.imagen, styles.traje]}
+            />
+          )}
+          {trajeSeleccionado === 'gorro-cartman' && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/cartman-gorro.png')}
+              style={[styles.imagen, styles.traje]}
+            />
+          )}
+          {trajeSeleccionado === 'traje-cartman' && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/cartman-traje.png')}
+              style={[styles.imagen, styles.traje]}
+            />
+          )}
            {/* Ojos cerrados solo si está parpadeando y la lámpara está encendida */}
            {isBlinking && !isLampOff && (
              <Image
-               source={require('../assets/images/Pompompurin-ojos cerrados.png')}
+               source={require('../assets/images/versiones-pompompurin/Pompompurin-ojos cerrados.png')}
                style={[styles.imagen, styles.traje]}
              />
            )}
            {/* Imagen dormido si la lámpara está apagada */}
            {isLampOff && (
              <Image
-               source={require('../assets/images/Pompompurin-dormido.png')}
+               source={require('../assets/images/versiones-pompompurin/Pompompurin-dormido.png')}
                style={[styles.imagen, styles.traje]}
              />
            )}

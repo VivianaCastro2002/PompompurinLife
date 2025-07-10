@@ -22,13 +22,15 @@ export default function HomeScreen() {
   const [mostrarDialogoHambreMedia, setMostrarDialogoHambreMedia] = useState(false);
   const [mostrarDialogoHambreCritica, setMostrarDialogoHambreCritica] = useState(false);
   const [mostrarDialogoSuennio, setMostrarDialogoSuennio] = useState(false);
+  const [mostrarDialogoComio, setMostrarDialogoComio] = useState(false);
+  const [mostrarDialogoZzz, setMostrarDialogoZzz] = useState(false);
+  const [mostrarDialogoFlanes, setMostrarDialogoFlanes] = useState(false);
   const notificadoHambre = useRef(false);
   const notificadoEnergia = useRef(false);
   const [isBlinking, setIsBlinking] = useState(false);
   const [gorroSeleccionado, setGorroSeleccionado] = useState(null);
   const [trajeSeleccionado, setTrajeSeleccionado] = useState(null);
   const [isReady, setIsReady] = useState(false);
-  const [mostrarDialogoComio, setMostrarDialogoComio] = useState(false);
   const [isPressing, setIsPressing] = useState(false);
   const reboteIntervalRef = useRef<NodeJS.Timer | null>(null);
   const yaMostroDialogo = useRef(false);
@@ -115,7 +117,17 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady || !isLampOff) return;
+
+    if (hunger === 20) {
+      setMostrarDialogoFlanes(true);
+      setTimeout(() => setMostrarDialogoFlanes(false), 4000);
+    }
+  }, [hunger, isReady, isLampOff]);
+
+
+  useEffect(() => {
+    if (!isReady || isLampOff) return;
 
     if (hunger === 50) {
       setMostrarDialogoHambreMedia(true);
@@ -256,8 +268,13 @@ export default function HomeScreen() {
   };
 
   const handlePress = () => {
-    setMostrarDialogo(true);
-    setTimeout(() => setMostrarDialogo(false), 1000);
+    if (isLampOff) {
+      setMostrarDialogoZzz(true);
+      setTimeout(() => setMostrarDialogoZzz(false), 1500);
+    } else {
+      setMostrarDialogo(true);
+      setTimeout(() => setMostrarDialogo(false), 1000);
+    }
   };
 
   const guardarEstadoActual = async () => {
@@ -300,6 +317,18 @@ export default function HomeScreen() {
             style={styles.dialogo}
           />
         )}
+        {mostrarDialogoZzz && (
+          <Image
+            source={require('../assets/images/zzzzz.png')}
+            style={styles.dialogo}
+          />
+        )}
+        {mostrarDialogoFlanes && (
+          <Image
+            source={require('../assets/images/soñandoConFlanes.png')}
+            style={styles.dialogo}
+          />
+        )}
         {mostrarDialogoHambreMedia && (
           <Image
             source={require('../assets/images/se me antoja algo.png')}
@@ -323,11 +352,12 @@ export default function HomeScreen() {
           <Pressable
             onPressIn={() => {
               setIsPressing(true);
-
               if (!yaMostroDialogo.current) {
-                  setIsPressing(true);
-                  setMostrarDialogo(true);
-                  setTimeout(() => setMostrarDialogo(false), 3000);
+                handlePress();
+                yaMostroDialogo.current = true;
+                setTimeout(() => {
+                  yaMostroDialogo.current = false;
+                }, 4000);
               }
             }}
             onPressOut={() => setIsPressing(false)}

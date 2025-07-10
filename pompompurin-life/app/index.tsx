@@ -128,13 +128,13 @@ export default function HomeScreen() {
   }, [hunger, isReady]);
 
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady || isLampOff) return;
 
     if (energy === 15) {
       setMostrarDialogoSuennio(true);
       setTimeout(() => setMostrarDialogoSuennio(false), 4000);
     }
-  }, [energy, isReady]);
+  }, [energy, isReady, isLampOff]);
 
   useEffect(() => {
     if (!isReady) return;
@@ -156,7 +156,7 @@ export default function HomeScreen() {
   }, [hunger, isReady]);
 
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady || isLampOff) return;
 
     if (energy <= 15 && !notificadoEnergia.current) {
       Notifications.scheduleNotificationAsync({
@@ -172,7 +172,7 @@ export default function HomeScreen() {
     if (energy > 15) {
       notificadoEnergia.current = false;
     }
-  }, [energy, isReady]);
+  }, [energy, isReady,isLampOff]);
 
   useEffect(() => {
     if (isPressing) {

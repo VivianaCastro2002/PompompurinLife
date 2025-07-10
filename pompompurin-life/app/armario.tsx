@@ -78,10 +78,29 @@ export default function Armario() {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.estante}>
+                  {/* Visual */}
+                  <View style={{ position: 'absolute', zIndex: 1 }}>
                     <Image
-                        source={require('../assets/images/hat.png')}
-                        style={{ width: '50%', height: '100%', resizeMode: 'contain' }}
+                      source={require('../assets/images/versiones-pompompurin/miku-traje.png')}
+                      style={styles.imagen}
                     />
+                    <Image
+                      source={require('../assets/images/versiones-pompompurin/miku-pelo.png')}
+                      style={[styles.imagen, { position: 'absolute', top: 0, left: 0 }]}
+                    />
+                  </View>
+
+                  {/* Área de toque: traje */}
+                  <TouchableOpacity
+                    onPress={() => seleccionarTraje('Traje de Miku', 'traje-miku', 'traje')}
+                    style={[styles.toqueInvisible, { bottom: 0 }]}
+                  />
+
+                  {/* Área de toque: pelo */}
+                  <TouchableOpacity
+                    onPress={() => seleccionarTraje('Pelo de Miku', 'pelo-miku', 'gorro')}
+                    style={[styles.toqueInvisible, { top: 0 }]}
+                  />
                 </View>
             </View>
             <VolverBoton onPress={onBotonPresionado} title={botonTexto}/>
@@ -136,4 +155,17 @@ const styles = StyleSheet.create({
       height: 80,
       resizeMode: 'contain',
     },
+    imagen: {
+      width: 165,
+      height: 150,
+      resizeMode: 'contain',
+    },
+    toqueInvisible: {
+      position: 'absolute',
+      height: '50%', // o una porción personalizada
+      width: '100%',
+      backgroundColor: 'transparent',
+      zIndex: 2,
+    }
+
 });

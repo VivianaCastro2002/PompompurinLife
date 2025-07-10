@@ -178,7 +178,7 @@ export default function HomeScreen() {
     if (isPressing) {
       scale.value = withRepeat(
         withSequence(
-          withTiming(1.15, { duration: 100 }),
+          withTiming(1.08, { duration: 100 }),
           withTiming(1, { duration: 100 })
         ),
         -1,
@@ -213,7 +213,7 @@ export default function HomeScreen() {
       // Dormido: respiración más profunda y lenta
       scale.value = withRepeat(
         withSequence(
-          withTiming(1.08, { duration: 1000 }),
+          withTiming(1.05, { duration: 1000 }),
           withTiming(1, { duration: 1000 })
         ),
         -1,
@@ -223,7 +223,7 @@ export default function HomeScreen() {
       // Despierto: respiración más leve y rápida
       scale.value = withRepeat(
         withSequence(
-          withTiming(1.03, { duration: 700 }),
+          withTiming(1.02, { duration: 700 }),
           withTiming(1, { duration: 700 })
         ),
         -1,

@@ -27,6 +27,11 @@ export default function HomeScreen() {
   const [trajeSeleccionado, setTrajeSeleccionado] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [mostrarDialogoComio, setMostrarDialogoComio] = useState(false);
+  const [isPressing, setIsPressing] = useState(false);
+  const [scale, setScale] = useState(1);
+  const reboteIntervalRef = useRef<NodeJS.Timer | null>(null);
+  const yaMostroDialogo = useRef(false);
+
 
 
   useEffect(() => {
@@ -170,6 +175,22 @@ export default function HomeScreen() {
   }, [energy, isReady]);
 
   useEffect(() => {
+    if (isPressing) {
+      reboteIntervalRef.current = setInterval(() => {
+        setScale((prev) => (prev === 1 ? 1.2 : 1));
+      }, 200); // velocidad del rebote
+    } else {
+      clearInterval(reboteIntervalRef.current!);
+      setScale(1); // vuelve a estado normal al soltar
+    }
+
+    return () => {
+      clearInterval(reboteIntervalRef.current!);
+    };
+  }, [isPressing]);
+
+
+  useEffect(() => {
     const blinkInterval = setInterval(() => {
       if (!isLampOff) blinkTwice();
     }, 3000);
@@ -251,11 +272,24 @@ export default function HomeScreen() {
         )}
 
         <MotiView
-          from={{ scale: 1 }}
-          animate={{ scale: mostrarDialogo ? 1.3 : 1 }}
-          transition={{ type: 'spring' }}
+          animate={{ scale }}
+          transition={{
+            type: 'timing',
+            duration: 100,
+          }}
         >
-          <Pressable onPress={handlePress}>
+          <Pressable
+            onPressIn={() => {
+              setIsPressing(true);
+
+              if (!yaMostroDialogo.current) {
+                setMostrarDialogo(true);
+                yaMostroDialogo.current = true;
+                setTimeout(() => setMostrarDialogo(false), 3000);
+              }
+            }}
+            onPressOut={() => setIsPressing(false)}
+          >
           <Image
             source={require('../assets/images/Pompompurin2.png')}
             style={styles.imagen}

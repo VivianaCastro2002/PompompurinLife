@@ -257,7 +257,7 @@ export default function HomeScreen() {
 
   const handlePress = () => {
     setMostrarDialogo(true);
-    setTimeout(() => setMostrarDialogo(false), 4000);
+    setTimeout(() => setMostrarDialogo(false), 1000);
   };
 
   const guardarEstadoActual = async () => {
@@ -290,7 +290,7 @@ export default function HomeScreen() {
       <View style={styles.imagenContainer}>
         {mostrarDialogoComio && (
           <Image
-            source={require('../assets/images/ñam-ñam.png')} // usa la ruta correcta
+            source={require('../assets/images/ñam-ñam.png')}
             style={styles.dialogo}
           />
         )}
@@ -325,9 +325,9 @@ export default function HomeScreen() {
               setIsPressing(true);
 
               if (!yaMostroDialogo.current) {
-                setMostrarDialogo(true);
-                yaMostroDialogo.current = true;
-                setTimeout(() => setMostrarDialogo(false), 3000);
+                  setIsPressing(true);
+                  setMostrarDialogo(true);
+                  setTimeout(() => setMostrarDialogo(false), 3000);
               }
             }}
             onPressOut={() => setIsPressing(false)}

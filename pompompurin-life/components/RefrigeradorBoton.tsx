@@ -10,7 +10,7 @@ export default function RefrigeradorBoton({ onPress }: RefrigeradorBotonProps){
     <View style={styles.container}>
       <TouchableOpacity onPress={onPress}>
         <Image
-          source={require('../assets/images/fridge.png')}
+          source={require('../assets/images/refri.png')}
           style={styles.imagenBoton}
         />
       </TouchableOpacity>

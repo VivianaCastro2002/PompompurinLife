@@ -441,6 +441,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection:'column',
     gap: 0,
+    paddingBottom:10
   },
   barrasEstadoContainer: {
     flex: 1,

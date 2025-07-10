@@ -395,7 +395,7 @@ export default function HomeScreen() {
           await guardarEstadoActual();
           router.push('/armario');
         }} />
-        <Lampara onToggle={setIsLampOff}/>
+        <Lampara apagada={isLampOff} onToggle={setIsLampOff}/>
         <RefrigeradorBoton onPress={async () => {
           await guardarEstadoActual();
           router.push('/refrigerador');

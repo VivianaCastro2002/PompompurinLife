@@ -1,23 +1,24 @@
 import { useState } from 'react';
-import { View, Button, StyleSheet,TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
-export default function Lampara({ onToggle }: { onToggle: (isOff: boolean) => void }) {
-  const [isOff, setIsOff] = useState(false);
+export default function Lampara({
+     apagada,
+      onToggle,
+    }: {
+      apagada: boolean;
+      onToggle: (isOff: boolean) => void;
+    }) {
+      const toggle = () => {
+        onToggle(!apagada);
+      };
 
-  const toggle = () => {
-    setIsOff(prev => {
-      const next = !prev;
-      onToggle(next);
-      return next;
-    });
-  };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={toggle}>
         <Image
           source={
-            isOff
+            apagada
               ? require('../assets/images/lamp-off.png')
               : require('../assets/images/lamp-on.png')
           }

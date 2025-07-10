@@ -23,59 +23,7 @@ export default function HomeScreen() {
   const [isBlinking, setIsBlinking] = useState(false);
   const [gorroSeleccionado, setGorroSeleccionado] = useState(null);
   const [trajeSeleccionado, setTrajeSeleccionado] = useState(null);
-
-  useEffect(() => {
-    const blinkInterval = setInterval(() => {
-      if (!isLampOff) blinkTwice(); // solo parpadea si la lámpara está encendida
-    }, 5000);
-
-    return () => clearInterval(blinkInterval);
-  }, [isLampOff]);
-
-  const blinkTwice = async () => {
-    for (let i = 0; i < 2; i++) {
-      setIsBlinking(true);
-      await new Promise(resolve => setTimeout(resolve, 150));
-      setIsBlinking(false);
-      await new Promise(resolve => setTimeout(resolve, 150));
-    }
-  };
-  useEffect(() => {
-    if (hunger === 50) {
-      setMostrarDialogoHambreMedia(true);
-      setTimeout(() => setMostrarDialogoHambreMedia(false), 4000);
-    }
-    if (hunger === 15) {
-      setMostrarDialogoHambreCritica(true);
-      setTimeout(() => setMostrarDialogoHambreCritica(false), 4000);
-    }
-  }, [hunger]);
-
-  useEffect(() => {
-      if (energy === 15) {
-        setMostrarDialogoSuennio(true);
-        setTimeout(() => setMostrarDialogoSuennio(false), 4000);
-      }
-    }, [energy]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setEnergy(prev => {
-        if (isLampOff) return Math.min(prev + 1, 100);
-        else return Math.max(prev - 1, 0);
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isLampOff]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHunger(prev => Math.max(prev - 1, 0));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -93,17 +41,56 @@ export default function HomeScreen() {
         if (storedTraje !== null) setTrajeSeleccionado(storedTraje);
       } catch (e) {
         console.log('Error al cargar datos', e);
+      } finally {
+        setIsReady(true);
       }
     };
     cargarDatos();
   }, []);
 
   useEffect(() => {
+    if (!isReady) return;
+
+    const interval = setInterval(() => {
+      setEnergy(prev => {
+        if (isLampOff) return Math.min(prev + 1, 100);
+        else return Math.max(prev - 1, 0);
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isLampOff, isReady]);
+
+  useEffect(() => {
+    if (!isReady) return;
+
+    const interval = setInterval(() => {
+      setHunger(prev => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isReady]);
+
+  useEffect(() => {
+    if (!isReady) return;
     AsyncStorage.setItem('isLampOff', isLampOff.toString()).catch(e =>
       console.log('Error al guardar estado de la lámpara', e)
     );
-  }, [isLampOff]);
+  }, [isLampOff, isReady]);
 
+  useEffect(() => {
+    if (!isReady) return;
+    AsyncStorage.setItem('energy', energy.toString()).catch(e =>
+      console.log('Error al guardar energía', e)
+    );
+  }, [energy, isReady]);
+
+  useEffect(() => {
+    if (!isReady) return;
+    AsyncStorage.setItem('hunger', hunger.toString()).catch(e =>
+      console.log('Error al guardar hambre', e)
+    );
+  }, [hunger, isReady]);
 
   useEffect(() => {
     Notifications.requestPermissionsAsync().then(status => {
@@ -113,8 +100,31 @@ export default function HomeScreen() {
     });
   }, []);
 
-  // Notificación por hambre
   useEffect(() => {
+    if (!isReady) return;
+
+    if (hunger === 50) {
+      setMostrarDialogoHambreMedia(true);
+      setTimeout(() => setMostrarDialogoHambreMedia(false), 4000);
+    }
+    if (hunger === 15) {
+      setMostrarDialogoHambreCritica(true);
+      setTimeout(() => setMostrarDialogoHambreCritica(false), 4000);
+    }
+  }, [hunger, isReady]);
+
+  useEffect(() => {
+    if (!isReady) return;
+
+    if (energy === 15) {
+      setMostrarDialogoSuennio(true);
+      setTimeout(() => setMostrarDialogoSuennio(false), 4000);
+    }
+  }, [energy, isReady]);
+
+  useEffect(() => {
+    if (!isReady) return;
+
     if (hunger <= 15 && !notificadoHambre.current) {
       Notifications.scheduleNotificationAsync({
         content: {
@@ -127,12 +137,13 @@ export default function HomeScreen() {
       notificadoHambre.current = true;
     }
     if (hunger > 15) {
-      notificadoHambre.current = false; // se resetea si vuelve a subir
+      notificadoHambre.current = false;
     }
-  }, [hunger]);
+  }, [hunger, isReady]);
 
-  // Notificación por energía
   useEffect(() => {
+    if (!isReady) return;
+
     if (energy <= 15 && !notificadoEnergia.current) {
       Notifications.scheduleNotificationAsync({
         content: {
@@ -147,25 +158,44 @@ export default function HomeScreen() {
     if (energy > 15) {
       notificadoEnergia.current = false;
     }
-  }, [energy]);
+  }, [energy, isReady]);
 
   useEffect(() => {
-    AsyncStorage.setItem('energy', energy.toString()).catch(e =>
-      console.log('Error al guardar energía', e)
-    );
-  }, [energy]);
+    const blinkInterval = setInterval(() => {
+      if (!isLampOff) blinkTwice();
+    }, 3000);
 
-  useEffect(() => {
-    AsyncStorage.setItem('hunger', hunger.toString()).catch(e =>
-      console.log('Error al guardar hambre', e)
-    );
-  }, [hunger]);
+    return () => clearInterval(blinkInterval);
+  }, [isLampOff]);
 
+  const blinkTwice = async () => {
+    for (let i = 0; i < 2; i++) {
+      setIsBlinking(true);
+      await new Promise(resolve => setTimeout(resolve, 150));
+      setIsBlinking(false);
+      await new Promise(resolve => setTimeout(resolve, 150));
+    }
+  };
 
   const handlePress = () => {
     setMostrarDialogo(true);
-    setTimeout(() => 
-      setMostrarDialogo(false), 4000);   
+    setTimeout(() => setMostrarDialogo(false), 4000);
+  };
+
+  const guardarEstadoActual = async () => {
+    try {
+      await AsyncStorage.setItem('energy', energy.toString());
+      await AsyncStorage.setItem('hunger', hunger.toString());
+      await AsyncStorage.setItem('isLampOff', isLampOff.toString());
+      if (gorroSeleccionado) {
+        await AsyncStorage.setItem('gorroSeleccionado', gorroSeleccionado);
+      }
+      if (trajeSeleccionado) {
+        await AsyncStorage.setItem('trajeSeleccionado', trajeSeleccionado);
+      }
+    } catch (e) {
+      console.log('Error al guardar el estado actual antes de navegar', e);
+    }
   };
 
   return (
@@ -212,7 +242,7 @@ export default function HomeScreen() {
           />
           {gorroSeleccionado === 'gorro-link' && (
             <Image
-              source={require('../assets/images/versiones-pompompurin/link-gorro con cola.png')}
+              source={require('../assets/images/versiones-pompompurin/miku-pelo.png')}
               style={[styles.imagen,styles.traje]}
             />
           )}
@@ -225,7 +255,7 @@ export default function HomeScreen() {
 
           {trajeSeleccionado === 'traje-link' && (
             <Image
-              source={require('../assets/images/versiones-pompompurin/link-traje.png')}
+              source={require('../assets/images/versiones-pompompurin/miku-traje.png')}
               style={[styles.imagen, styles.traje]}
             />
           )}
@@ -252,9 +282,15 @@ export default function HomeScreen() {
         </Pressable>
       </View>
       <View style={styles.accionesContainer}>
-        <ArmarioBoton onPress={() => router.push('/armario')} />
+        <ArmarioBoton onPress={async () => {
+          await guardarEstadoActual();
+          router.push('/armario');
+        }} />
         <Lampara onToggle={setIsLampOff}/>
-        <RefrigeradorBoton onPress={() => router.push('/refrigerador')} />
+        <RefrigeradorBoton onPress={async () => {
+          await guardarEstadoActual();
+          router.push('/refrigerador');
+        }} />
       </View>
      </View>
     </ImageBackground>

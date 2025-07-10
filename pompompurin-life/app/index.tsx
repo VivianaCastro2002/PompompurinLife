@@ -7,8 +7,6 @@ import RefrigeradorBoton from '../components/RefrigeradorBoton';
 import ArmarioBoton from '../components/ArmarioBoton';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useLocalSearchParams } from 'expo-router';
-
 
 
 export default function HomeScreen() {

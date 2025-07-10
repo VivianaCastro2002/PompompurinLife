@@ -7,6 +7,8 @@ import RefrigeradorBoton from '../components/RefrigeradorBoton';
 import ArmarioBoton from '../components/ArmarioBoton';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLocalSearchParams } from 'expo-router';
+
 
 
 export default function HomeScreen() {
@@ -24,6 +26,8 @@ export default function HomeScreen() {
   const [gorroSeleccionado, setGorroSeleccionado] = useState(null);
   const [trajeSeleccionado, setTrajeSeleccionado] = useState(null);
   const [isReady, setIsReady] = useState(false);
+  const [mostrarDialogoComio, setMostrarDialogoComio] = useState(false);
+
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -33,7 +37,12 @@ export default function HomeScreen() {
         const storedLamp = await AsyncStorage.getItem('isLampOff');
         const storedGorro = await AsyncStorage.getItem('gorroSeleccionado');
         const storedTraje = await AsyncStorage.getItem('trajeSeleccionado');
-
+        const storedComio = await AsyncStorage.getItem('mostrarDialogoComio');
+        if (storedComio === 'true') {
+          setMostrarDialogoComio(true);
+          setTimeout(() => setMostrarDialogoComio(false), 4000);
+          await AsyncStorage.removeItem('mostrarDialogoComio'); // limpia la bandera
+        }
         if (storedLamp !== null) setIsLampOff(storedLamp === 'true');
         if (storedEnergy !== null) setEnergy(Number(storedEnergy));
         if (storedHunger !== null) setHunger(Number(storedHunger));
@@ -128,8 +137,8 @@ export default function HomeScreen() {
     if (hunger <= 15 && !notificadoHambre.current) {
       Notifications.scheduleNotificationAsync({
         content: {
-          title: '¡Me muerooo!',
-          body: 'Tu Pompompurin necesita comer algo 🍞',
+          title: '¡Me mueroo! ૮(˶ㅠ︿ㅠ)ა',
+          body: 'Tu Pompompurin necesita comer un flan 🍮',
           sound: 'default',
         },
         trigger: null,
@@ -147,7 +156,7 @@ export default function HomeScreen() {
     if (energy <= 15 && !notificadoEnergia.current) {
       Notifications.scheduleNotificationAsync({
         content: {
-          title: '¡TENGO SUEÑOOO!',
+          title: '¡TENGO SUEÑOO! ୧(๑•̀ᗝ•́)૭',
           body: 'Tu Pompompurin necesita descansar 💤',
           sound: 'default',
         },
@@ -210,6 +219,12 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.imagenContainer}>
+        {mostrarDialogoComio && (
+          <Image
+            source={require('../assets/images/ñam-ñam.png')} // usa la ruta correcta
+            style={styles.dialogo}
+          />
+        )}
         {mostrarDialogo && (
           <Image
             source={require('../assets/images/touchText.png')}

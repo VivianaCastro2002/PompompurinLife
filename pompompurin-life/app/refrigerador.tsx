@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet,TouchableOpacity, Button, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet,TouchableOpacity, Button, Image} from 'react-native';
 import VolverBoton from '@/components/VolverBoton';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,12 +12,12 @@ export default function Refrigerador() {
     try {
       const storedHunger = await AsyncStorage.getItem('hunger');
       const currentHunger = storedHunger ? parseInt(storedHunger) : 0;
-      const newHunger = Math.min(currentHunger + 15, 100);
+      const newHunger = Math.min(currentHunger + 40, 100);
       await AsyncStorage.setItem('hunger', newHunger.toString());
-      Alert.alert('¡Ñam ñam!', 'Pompompurin comió flan 🍮');
+      await AsyncStorage.setItem('mostrarDialogoComio', 'true');
       router.push('/');
     } catch (e) {
-      console.log('Error al aumentar hambre', e);
+      console.log('Error al guardar datos', e);
     }
   };
 

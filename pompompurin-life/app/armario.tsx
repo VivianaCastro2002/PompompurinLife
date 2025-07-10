@@ -89,13 +89,11 @@ export default function Armario() {
                       style={[styles.imagen, { position: 'absolute', top: 0, left: 0 }]}
                     />
                   </View>
-
                   {/* Área de toque: traje */}
                   <TouchableOpacity
                     onPress={() => seleccionarTraje('Traje de Miku', 'traje-miku', 'traje')}
                     style={[styles.toqueInvisible, { bottom: 0 }]}
                   />
-
                   {/* Área de toque: pelo */}
                   <TouchableOpacity
                     onPress={() => seleccionarTraje('Pelo de Miku', 'gorro-miku', 'gorro')}

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Image, ImageBackground } from 'react-native';
 import VolverBoton from '@/components/VolverBoton';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -39,7 +39,11 @@ export default function Armario() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Armario</Text>
-            <View style={styles.closet}>
+                <ImageBackground
+                  source={require('../assets/images/armario-abierto.png')}
+                  style={styles.closet}
+                  imageStyle={{ resizeMode: 'contain' }}
+                >
                 <View style={styles.estante}>
                   <TouchableOpacity
                     onPress={() => seleccionarTraje('Gorro de Link', 'gorro-link', 'gorro')}
@@ -100,7 +104,7 @@ export default function Armario() {
                     style={[styles.toqueInvisible, { top: 0 }]}
                   />
                 </View>
-            </View>
+            </ImageBackground>
             <VolverBoton onPress={onBotonPresionado} title={botonTexto}/>
         </View>
     );
@@ -123,18 +127,13 @@ const styles = StyleSheet.create({
     closet: {
         flex: 1,
         width: '100%',
-        marginVertical: 20,
-        backgroundColor: '#a1673d',
-        borderRadius: 10,
-        justifyContent: 'center',
+        paddingTop: 103,
         alignItems: 'center',
     },
     estante: {
-      width: '80%',
-      height: 160,
-      backgroundColor: '#69372c',
-      borderRadius: 10,
-      marginBottom: 20,
+      width: '75%',
+      height: 120,
+      marginBottom: 30,
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -146,7 +145,7 @@ const styles = StyleSheet.create({
       width: 105,
       height: 75,
       resizeMode: 'contain',
-      marginBottom: 2,
+      marginBottom: -10,
     },
     traje: {
       width: 120,

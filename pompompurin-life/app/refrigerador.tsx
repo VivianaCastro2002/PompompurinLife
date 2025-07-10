@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet,TouchableOpacity, Button, Image} from 'react-native';
+import { View, Text, StyleSheet,TouchableOpacity, Button, Image, ImageBackground} from 'react-native';
 import VolverBoton from '@/components/VolverBoton';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,7 +32,11 @@ export default function Refrigerador() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Refrigerador</Text>
-            <View style={styles.refri}>
+                <ImageBackground
+                  source={require('../assets/images/refrigerador-abierto.png')} // <-- tu imagen PNG
+                  style={styles.refri}
+                  imageStyle={{ resizeMode: 'contain' }} // o 'contain' si prefieres
+                >
                 <View style={styles.estante}>
                  <TouchableOpacity onPress={() => setComidaSeleccionada('flan')}
                   style={styles.touchable}>
@@ -60,7 +64,7 @@ export default function Refrigerador() {
                   />
                  </TouchableOpacity>
                 </View>
-            </View>
+            </ImageBackground>
             <VolverBoton onPress={onBotonPresionado} title={botonTexto}/>
         </View>
     );
@@ -82,21 +86,16 @@ const styles = StyleSheet.create({
     },
     refri: {
        flex: 1,
-       width: '100%',
-       marginVertical: 20,
-       backgroundColor: '#A9CBD1',
-       borderRadius: 10,
-       justifyContent: 'center',
+       width: '102%',
+       paddingTop: 140,
        alignItems: 'center',
     },
     estante: {
-        width: '80%',
-        height: '25%',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 10,
-        marginBottom: 20,
+        width: '60%',
+        height: '20%',
+        marginBottom: 22,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     touchable: {
         width: '100%',

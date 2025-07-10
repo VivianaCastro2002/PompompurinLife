@@ -9,6 +9,8 @@ import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams } from 'expo-router';
 import { MotiView } from 'moti';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence } from 'react-native-reanimated';
+
 
 
 export default function HomeScreen() {
@@ -28,11 +30,9 @@ export default function HomeScreen() {
   const [isReady, setIsReady] = useState(false);
   const [mostrarDialogoComio, setMostrarDialogoComio] = useState(false);
   const [isPressing, setIsPressing] = useState(false);
-  const [scale, setScale] = useState(1);
   const reboteIntervalRef = useRef<NodeJS.Timer | null>(null);
   const yaMostroDialogo = useRef(false);
-
-
+  const scale = useSharedValue(1);
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -176,19 +176,67 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (isPressing) {
-      reboteIntervalRef.current = setInterval(() => {
-        setScale((prev) => (prev === 1 ? 1.2 : 1));
-      }, 200); // velocidad del rebote
+      scale.value = withRepeat(
+        withSequence(
+          withTiming(1.15, { duration: 100 }),
+          withTiming(1, { duration: 100 })
+        ),
+        -1,
+        true
+      );
     } else {
-      clearInterval(reboteIntervalRef.current!);
-      setScale(1); // vuelve a estado normal al soltar
+      // Vuelve a la respiración normal
+      if (isLampOff) {
+        scale.value = withRepeat(
+          withSequence(
+            withTiming(1.08, { duration: 1000 }),
+            withTiming(1, { duration: 1000 })
+          ),
+          -1,
+          true
+        );
+      } else {
+        scale.value = withRepeat(
+          withSequence(
+            withTiming(1.03, { duration: 700 }),
+            withTiming(1, { duration: 700 })
+          ),
+          -1,
+          true
+        );
+      }
     }
+  }, [isPressing, isLampOff]);
 
-    return () => {
-      clearInterval(reboteIntervalRef.current!);
-    };
-  }, [isPressing]);
+  useEffect(() => {
+    if (isLampOff) {
+      // Dormido: respiración más profunda y lenta
+      scale.value = withRepeat(
+        withSequence(
+          withTiming(1.08, { duration: 1000 }),
+          withTiming(1, { duration: 1000 })
+        ),
+        -1,
+        true
+      );
+    } else {
+      // Despierto: respiración más leve y rápida
+      scale.value = withRepeat(
+        withSequence(
+          withTiming(1.03, { duration: 700 }),
+          withTiming(1, { duration: 700 })
+        ),
+        -1,
+        true
+      );
+    }
+  }, [isLampOff]);
 
+    const animatedStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ scale: scale.value }],
+      };
+    });
 
   useEffect(() => {
     const blinkInterval = setInterval(() => {
@@ -271,13 +319,7 @@ export default function HomeScreen() {
              />
         )}
 
-        <MotiView
-          animate={{ scale }}
-          transition={{
-            type: 'timing',
-            duration: 100,
-          }}
-        >
+        <MotiView style={animatedStyle}>
           <Pressable
             onPressIn={() => {
               setIsPressing(true);

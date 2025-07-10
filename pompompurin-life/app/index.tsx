@@ -8,7 +8,7 @@ import ArmarioBoton from '../components/ArmarioBoton';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams } from 'expo-router';
-
+import { MotiView } from 'moti';
 
 
 export default function HomeScreen() {
@@ -250,7 +250,12 @@ export default function HomeScreen() {
              />
         )}
 
-        <Pressable onPress={handlePress}>
+        <MotiView
+          from={{ scale: 1 }}
+          animate={{ scale: mostrarDialogo ? 1.3 : 1 }}
+          transition={{ type: 'spring' }}
+        >
+          <Pressable onPress={handlePress}>
           <Image
             source={require('../assets/images/Pompompurin2.png')}
             style={styles.imagen}
@@ -258,19 +263,19 @@ export default function HomeScreen() {
           {gorroSeleccionado === 'gorro-link' && (
             <Image
               source={require('../assets/images/versiones-pompompurin/link-gorro con cola.png')}
-              style={[styles.imagen,styles.traje]}
+              style={[styles.imagen, styles.traje]}
             />
           )}
           {gorroSeleccionado === 'gorro-cartman' && (
             <Image
               source={require('../assets/images/versiones-pompompurin/cartman-gorro.png')}
-              style={[styles.imagen,styles.traje]}
+              style={[styles.imagen, styles.traje]}
             />
           )}
           {gorroSeleccionado === 'gorro-miku' && (
             <Image
               source={require('../assets/images/versiones-pompompurin/miku-pelo.png')}
-              style={[styles.imagen,styles.traje]}
+              style={[styles.imagen, styles.traje]}
             />
           )}
 
@@ -292,21 +297,22 @@ export default function HomeScreen() {
               style={[styles.imagen, styles.traje]}
             />
           )}
-           {/* Ojos cerrados solo si está parpadeando y la lámpara está encendida */}
-           {isBlinking && !isLampOff && (
-             <Image
-               source={require('../assets/images/versiones-pompompurin/Pompompurin-ojos cerrados.png')}
-               style={[styles.imagen, styles.traje]}
-             />
-           )}
-           {/* Imagen dormido si la lámpara está apagada */}
-           {isLampOff && (
-             <Image
-               source={require('../assets/images/versiones-pompompurin/Pompompurin-dormido.png')}
-               style={[styles.imagen, styles.traje]}
-             />
-           )}
-        </Pressable>
+
+          {isBlinking && !isLampOff && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/Pompompurin-ojos cerrados.png')}
+              style={[styles.imagen, styles.traje]}
+            />
+          )}
+          {isLampOff && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/Pompompurin-dormido.png')}
+              style={[styles.imagen, styles.traje]}
+            />
+          )}
+          </Pressable>
+        </MotiView>
+
       </View>
       <View style={styles.accionesContainer}>
         <ArmarioBoton onPress={async () => {

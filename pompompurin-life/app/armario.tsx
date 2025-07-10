@@ -105,7 +105,23 @@ export default function Armario() {
                   />
                 </View>
             </ImageBackground>
-            <VolverBoton onPress={onBotonPresionado} title={botonTexto}/>
+            <View style={styles.botonesContainer}>
+              <VolverBoton
+                onPress={async () => {
+                  try {
+                    await AsyncStorage.removeItem('trajeSeleccionado');
+                    await AsyncStorage.removeItem('gorroSeleccionado');
+                    setTrajeSeleccionado(null);
+                    setGorroSeleccionado(null);
+                    router.push('/');
+                  } catch (e) {
+                    console.log('Error al desvestir', e);
+                  }
+                }}
+                title="Desvestir"
+              />
+              <VolverBoton onPress={onBotonPresionado} title={botonTexto} />
+            </View>
         </View>
     );
 }
@@ -127,7 +143,8 @@ const styles = StyleSheet.create({
     closet: {
         flex: 1,
         width: '100%',
-        paddingTop: 103,
+        height: 'auto',
+        paddingTop: 80,
         alignItems: 'center',
     },
     estante: {
@@ -163,6 +180,13 @@ const styles = StyleSheet.create({
       width: '100%',
       backgroundColor: 'transparent',
       zIndex: 2,
+    },
+    botonesContainer: {
+      gap: 18, // Si estás en React Native 0.71+, si no, usa marginBottom en cada botón
+      width: '100%',
+      height: 'auto',
+      alignItems: 'center',
+      justifyContent: 'center',
     }
 
 });

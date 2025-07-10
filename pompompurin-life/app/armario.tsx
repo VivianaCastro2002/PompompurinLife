@@ -98,7 +98,7 @@ export default function Armario() {
 
                   {/* Área de toque: pelo */}
                   <TouchableOpacity
-                    onPress={() => seleccionarTraje('Pelo de Miku', 'pelo-miku', 'gorro')}
+                    onPress={() => seleccionarTraje('Pelo de Miku', 'gorro-miku', 'gorro')}
                     style={[styles.toqueInvisible, { top: 0 }]}
                   />
                 </View>

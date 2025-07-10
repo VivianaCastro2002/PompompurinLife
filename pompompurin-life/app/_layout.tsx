@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import * as Notifications from 'expo-notifications';
+import MusicaFondo from '../components/MusicaFondo';
 
 
 export default function RootLayout() {
@@ -11,11 +12,14 @@ export default function RootLayout() {
     }),
   });
   return (
+    <>
+    <MusicaFondo />
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="armario" options={{ headerShown: false }} />
       <Stack.Screen name="refrigerador" options={{ headerShown: false }} />
     </Stack>
+    </>
   );
 
 }

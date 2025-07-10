@@ -242,7 +242,7 @@ export default function HomeScreen() {
           />
           {gorroSeleccionado === 'gorro-link' && (
             <Image
-              source={require('../assets/images/versiones-pompompurin/miku-pelo.png')}
+              source={require('../assets/images/versiones-pompompurin/link-gorro con cola.png')}
               style={[styles.imagen,styles.traje]}
             />
           )}
@@ -252,16 +252,28 @@ export default function HomeScreen() {
               style={[styles.imagen,styles.traje]}
             />
           )}
+          {gorroSeleccionado === 'gorro-miku' && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/miku-pelo.png')}
+              style={[styles.imagen,styles.traje]}
+            />
+          )}
 
           {trajeSeleccionado === 'traje-link' && (
             <Image
-              source={require('../assets/images/versiones-pompompurin/miku-traje.png')}
+              source={require('../assets/images/versiones-pompompurin/link-traje.png')}
               style={[styles.imagen, styles.traje]}
             />
           )}
           {trajeSeleccionado === 'traje-cartman' && (
             <Image
               source={require('../assets/images/versiones-pompompurin/cartman-traje.png')}
+              style={[styles.imagen, styles.traje]}
+            />
+          )}
+          {trajeSeleccionado === 'traje-miku' && (
+            <Image
+              source={require('../assets/images/versiones-pompompurin/miku-traje.png')}
               style={[styles.imagen, styles.traje]}
             />
           )}

@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button, Image, ImageBackground } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Button, Image, ImageBackground } from 'react-native';
 import VolverBoton from '@/components/VolverBoton';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
+import CustomText from '@/components/CustomText';
 
 export default function Armario() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function Armario() {
   };
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Armario</Text>
+            <CustomText style={styles.title}>Armario</CustomText>
                 <ImageBackground
                   source={require('../assets/images/armario-abierto.png')}
                   style={styles.closet}
@@ -129,22 +130,22 @@ export default function Armario() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f9de8c',
+        backgroundColor: '#eecc6b',
         padding: 20,
-        paddingTop: '10%',
+        paddingTop: '18%',
         justifyContent: 'center',
         alignItems: 'center',
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
+        transform: [{ scaleY: 1.4 }],
         color: '#69372c',
     },
     closet: {
         flex: 1,
         width: '100%',
         height: 'auto',
-        paddingTop: 80,
+        paddingTop: 60,
         alignItems: 'center',
     },
     estante: {

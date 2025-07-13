@@ -3,6 +3,7 @@ import VolverBoton from '@/components/VolverBoton';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
+import CustomText from '@/components/CustomText';
 
 export default function Refrigerador() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Refrigerador() {
   };
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Refrigerador</Text>
+            <CustomText style={styles.title}>Refrigerador</CustomText>
                 <ImageBackground
                   source={require('../assets/images/refrigerador-abierto.png')} // <-- tu imagen PNG
                   style={styles.refri}
@@ -78,22 +79,22 @@ const styles = StyleSheet.create({
         paddingTop: '10%',
         justifyContent: 'center',
         alignItems: 'center',
+        gap:26
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
         color: '#3670A1',
+        transform: [{ scaleY: 1.4 }]
     },
     refri: {
-       flex: 1,
        width: '102%',
-       paddingTop: 140,
+       paddingTop: 90,
        alignItems: 'center',
     },
     estante: {
         width: '60%',
         height: '20%',
-        marginBottom: 22,
+        marginBottom: 30,
         justifyContent: 'center',
         alignItems: 'center'
     },

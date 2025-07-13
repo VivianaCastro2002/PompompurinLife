@@ -1,18 +1,19 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
+import CustomText from './CustomText';
 
 
 export default function BarraDeEstado({ energy, hunger }: { energy: number, hunger: number }) {
    return (
       <View style={styles.container}>
         <View style={styles.energyBarContainer}>
-          <Text style={styles.title}>Energía: {Math.round(energy)}%</Text>
+          <CustomText style={styles.title}>Energía: {energy}%</CustomText>
           <View style={styles.barBackground}>
           <View style={[styles.barFill, { width: `${energy}%`, backgroundColor: '#93D067' }]} />
           </View>
         </View>
         <View style={styles.hungryBarContainer}>
-          <Text style={styles.title}>Hambre: {Math.round(hunger)}%</Text>
+          <CustomText style={styles.title}>Hambre: {Math.round(hunger)}%</CustomText>
            <View style={styles.barBackground}>
             <View style={[styles.barFill, { width: `${hunger}%`, backgroundColor: '#C3793C' }]} />
            </View>
@@ -28,10 +29,10 @@ const styles = StyleSheet.create({
     padding: '3%',
   },
   title: {
-    fontSize: 24,
+    fontSize: 16,
     marginBottom: 'auto',
-    fontWeight: 'bold',
-    color:'#61391b',
+    color:'#5a3a23',
+    transform: [{ scaleY: 1.4 }]
   },
   energyBarContainer: {
     alignItems: 'center', // Centra el contenido
@@ -47,11 +48,13 @@ const styles = StyleSheet.create({
       width: '100%',
       height: 20,
       backgroundColor: '#ddd',
-      borderRadius: 10,
       overflow: 'hidden',
+      borderWidth: 3,
+      borderColor: '#5a3a23',
     },
     barFill: {
       height: '100%',
-      borderRadius: 10,
+      borderRightWidth: 3,
+      borderColor: '#5a3a23',
     },
 });

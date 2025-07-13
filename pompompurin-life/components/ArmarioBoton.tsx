@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet, Button } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet, Button } from 'react-native';
 import { useState } from 'react';
 
 type ArmarioBotonProps = {

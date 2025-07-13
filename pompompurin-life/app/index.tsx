@@ -11,8 +11,6 @@ import { useLocalSearchParams } from 'expo-router';
 import { MotiView } from 'moti';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSequence } from 'react-native-reanimated';
 
-
-
 export default function HomeScreen() {
   const router = useRouter();
   const [energy, setEnergy] = useState(100);
